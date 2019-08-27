@@ -1,68 +1,58 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Deploying React Applications to Github Pages
 
-## Available Scripts
+```
+Install the gh-pages from npm. In the terminal, run:
+npm install gh-pages or yarn add gh-pages This package would help us to create a gh-pagesbranch on Github and also serve our bundled react files on the branch.
 
-In the project directory, you can run:
+Locate the package.json file in your root directory, add this line of code to your script: "homepage": "link-to-your-repository", and save. In my own case it would look like this:
 
-### `npm start`
+{
+"name": "jv",
+"version": "0.1.0",
+"private": true,
+"homepage": "https://seunzone.github.io/TD-React-Challenge-Test-1",
+...
+}
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+Note: If you are linking your domain name to your Github pages, this line would be a little different, it should be: "homepage": "your-custom-domain"
+```
 
-### `npm test`
+```
+In your package.json file, locate “scripts” add these lines of code:
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+{
 
-### `npm run build`
+"predeploy": "yarn run build",
+"deploy": "gh-pages -d build",
 
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
+}
+```
 
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
 
-### `npm run eject`
+So your "scripts"should look like this:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+"scripts": {
+"start": "react-scripts start",
+"predeploy": "yarn run build",
+"deploy": "gh-pages -d build",
+"build": "react-scripts build",
+"test": "react-scripts test",
+"eject": "react-scripts eject"
+},
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+The predeploy command helps bundle the react app whilst the deploy command fires up the bundled file.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+In the terminal, run this command npm run deploy OR yarn run deploy. This command pushes your built file to the gh-pagesbranch on your remote repository
+```
 
-## Learn More
+```
+Note: 
+Sensitive information (eg .env files) should not be pushed to your online repository. My workaround is usually to git ignore the .env or config file before pushing to my remote repository, when this is done I then allow git to track the .env or config file before running yarn run deploy, this makes my deployed app to have access to the necessary configuration files I need without compromising the security of the app.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+```
